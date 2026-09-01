@@ -1,5 +1,5 @@
 """
-app.py — ThreatDetector Streamlit application.
+app.py — ThreatLens Streamlit application.
 
 Responsible for: UI, input validation, generic source orchestration,
 Gemini prompt construction/parsing, and result display. Contains no
@@ -23,7 +23,7 @@ from helpers import SOURCES
 # Page setup
 # --------------------------------------------------------------------------
 
-st.set_page_config(page_title="ThreatDetector", page_icon="🛡️", layout="centered")
+st.set_page_config(page_title="ThreatLens", page_icon="🛡️", layout="centered")
 
 TARGET_TYPES = ["IP Address", "Domain", "URL"]
 KNOWLEDGE_LEVELS = ["Beginner", "Intermediate", "Expert"]
@@ -169,7 +169,7 @@ The "verdict" field must be exactly one of: SAFE, SUSPICIOUS, MALICIOUS, UNKNOWN
 
 def call_gemini(prompt: str, api_key: str) -> str:
     client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+    response = client.models.generate_content(model="gemini-3.6-flash", contents=prompt)
     return (getattr(response, "text", "") or "").strip()
 
 
@@ -259,7 +259,7 @@ def render_sources(results: dict) -> None:
 # UI
 # --------------------------------------------------------------------------
 
-st.title("🛡️ ThreatDetector")
+st.title("🛡️ ThreatLens")
 st.caption("Threat Intelligence Assessment using VirusTotal and WHOIS")
 
 keys_set = bool(get_secret("VIRUSTOTAL_API_KEY")) and bool(get_secret("GEMINI_API_KEY"))
